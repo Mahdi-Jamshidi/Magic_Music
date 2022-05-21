@@ -128,7 +128,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearlayout_slider">
 
         <ImageView
-            android:id="@+id/btn_volume_on_oof"
+            android:id="@+id/btn_volume_on_off"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:padding="20dp"

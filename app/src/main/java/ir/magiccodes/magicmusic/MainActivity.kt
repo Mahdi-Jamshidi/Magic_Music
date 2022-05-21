@@ -1,5 +1,7 @@
 package ir.magiccodes.magicmusic
 
+import android.annotation.SuppressLint
+import android.media.AudioManager
 import android.media.MediaParser
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var mediaPlayer: MediaPlayer
     var isPlaying = true
     var isUserChanging = false
+    var isMute = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnPlayPause.setOnClickListener { configureMusic() }
         binding.btnGoBefore.setOnClickListener { giBeforeMusic() }
         binding.btnGoAfter.setOnClickListener { goAfterMusic() }
-        binding.btnVolumeOnOof.setOnClickListener { configureVolume() }
+        binding.btnVolumeOnOff.setOnClickListener { configureVolume() }
 
         binding.sliderMain.addOnChangeListener { slider, value, fromUser ->
 
@@ -87,15 +90,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun giBeforeMusic() {
-        TODO("Not yet implemented")
+        val now = mediaPlayer.currentPosition
+        val newValue = now - 15000
+        mediaPlayer.seekTo(newValue)
     }
 
     private fun goAfterMusic() {
-        TODO("Not yet implemented")
+        val now = mediaPlayer.currentPosition
+        val newValue = now + 15000
+        mediaPlayer.seekTo(newValue)
     }
 
+    @SuppressLint("InlinedApi")
     private fun configureVolume() {
-        TODO("Not yet implemented")
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+        if (isMute){
+            audioManager.adjustVolume(AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI)
+            binding.btnVolumeOnOff.setImageResource(R.drawable.ic_volume_on)
+            isMute = false
+        }else{
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.FLAG_SHOW_UI)
+            binding.btnVolumeOnOff.setImageResource(R.drawable.ic_volume_off)
+            isMute = true
+        }
+
     }
 
 
